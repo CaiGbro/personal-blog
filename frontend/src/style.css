@@ -1,0 +1,79 @@
+/* /frontend/src/style.css (在文件末尾追加) */
+
+/* --- 新增：广告激活时的全局样式 --- */
+
+/* 当广告激活时，给 body 一个深色背景作为最终底色 */
+.ads-active body {
+  background-color: #0a0a14;
+}
+
+/* 
+  让所有主要的白色内容容器变得透明，
+  并移除它们的阴影和边框，以便与新背景融合。
+*/
+.ads-active .home-container,
+.ads-active .guestbook-container,
+.ads-active .works-container,
+.ads-active .writings-container,
+.ads-active .admin-container .settings-card,
+.ads-active .profile-card {
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+/* 
+  同时，为了保证可读性，将这些容器内的主要文字颜色变为浅色。
+  使用 * 选择器可以覆盖大部分情况，但可以根据需要进行微调。
+*/
+.ads-active .main-content,
+.ads-active .sidebar,
+.ads-active .guestbook-container,
+.ads-active .works-container,
+.ads-active .writings-container,
+.ads-active .admin-container {
+  color: #e0e0e0;
+}
+
+/* 特殊处理链接和标题颜色，使其更醒目 */
+.ads-active h1, .ads-active h2, .ads-active h3 {
+  color: #fff;
+}
+.ads-active a:hover {
+  color: #00ffff; /* 鼠标悬停时变为青色 */
+}
+
+/* --- 移动端优化 --- */
+
+/* 断点：768px (适用于平板和手机) */
+@media (max-width: 768px) {
+  /* 减小主要内容容器的内边距 */
+  .home-container,
+  .guestbook-container,
+  .works-container,
+  .writings-container,
+  .admin-container {
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  /* 适当减小标题字体大小 */
+  h1 {
+    font-size: 2.2rem;
+  }
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* 断点：480px (仅适用于手机) */
+@media (max-width: 480px) {
+  .home-container,
+  .guestbook-container,
+  .works-container,
+  .writings-container,
+  .admin-container {
+    padding: 1rem 0.5rem; /* 左右边距进一步减小 */
+    margin: 0.5rem auto;
+  }
+}
