@@ -12,12 +12,12 @@
 
 这不仅仅是一个博客，更是一个集文章发布、视频画廊、互动社区于一体的综合性内容平台。
 
-![项目截图](./backend/static/writings/项目截图.png)
-![项目截图](./backend/static/writings/项目截图2.png)
-![项目截图](./backend/static/writings/项目截图3.png)
-![项目截图](./backend/static/writings/项目截图4.png)
-![项目截图](./backend/static/writings/项目截图5.png)
-![项目截图](./backend/static/writings/项目截图6.png)
+![项目截图](./backend/static/readme/项目截图.png)
+![项目截图](./backend/static/readme/项目截图2.png)
+![项目截图](./backend/static/readme/项目截图3.png)
+![项目截图](./backend/static/readme/项目截图4.png)
+![项目截图](./backend/static/readme/项目截图5.png)
+![项目截图](./backend/static/readme/项目截图6.png)
 
 
 ---
