@@ -123,6 +123,9 @@ const commentCount = ref(0);
 const touchStartY = ref(0);
 const touchEndY = ref(0);
 const touchMoveThreshold = 50; // 至少滑动50像素才算有效切换
+// 新增：预加载队列
+const preloadQueue = new Set();
+
 
 const updateCommentCount = (newCount) => { 
   commentCount.value = newCount; 
@@ -217,6 +220,40 @@ const onPause = () => {
   if (!isSwitching.value) isPlaying.value = false; 
 };
 
+const preloadVideos = () => {
+  // 清空旧的预加载任务
+  preloadQueue.clear();
+  
+  // 预加载接下来2个视频
+  const nextIndex1 = (currentIndex.value + 1) % props.videos.length;
+  const nextIndex2 = (currentIndex.value + 2) % props.videos.length;
+  
+  if (nextIndex1 !== currentIndex.value) {
+    preloadQueue.add(props.videos[nextIndex1]);
+  }
+  if (nextIndex2 !== currentIndex.value && nextIndex2 !== nextIndex1) {
+    preloadQueue.add(props.videos[nextIndex2]);
+  }
+
+  // (可选) 预加载上一个视频，方便用户回滑
+  const prevIndex = (currentIndex.value - 1 + props.videos.length) % props.videos.length;
+  if (prevIndex !== currentIndex.value) {
+    preloadQueue.add(props.videos[prevIndex]);
+  }
+  
+  // 执行预加载
+  preloadQueue.forEach(src => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = src;
+    document.head.appendChild(link);
+    // 可以在切换视频后移除这些 link 标签以节省内存，但通常浏览器会智能处理
+  });
+};
+
+
+
 const changeVideo = (newIndex) => {
   if (newIndex < 0 || newIndex >= props.videos.length || newIndex === currentIndex.value || isSwitching.value) {
     return;
@@ -243,6 +280,10 @@ const changeVideo = (newIndex) => {
       activePlayer.value = (activePlayer.value === 'A' ? 'B' : 'A'); // 切换活跃播放器
       currentIndex.value = newIndex;
       activePlayerEl.pause(); // 暂停旧的活跃播放器
+
+      // *** 关键：切换成功后，立即更新预加载队列 ***
+      preloadVideos(); 
+
       // 延迟一小段时间，确保切换动画完成
       setTimeout(() => { isSwitching.value = false; }, 300); 
     }).catch(error => {
@@ -347,13 +388,14 @@ const handleTouchEnd = () => {
   touchStartY.value = 0;
   touchEndY.value = 0;
 };
-
 watch(currentVideoSrc, (newSrc) => {
   if (newSrc) {
     fetchCommentCount(newSrc);
     fetchReactions(newSrc);
+    // *** 关键：当视频源变化时（包括首次加载），更新预加载队列 ***
+    preloadVideos();
   }
-}, { immediate: true }); // 立即执行一次，以加载初始视频的评论和回应
+}, { immediate: true });
 
 onMounted(() => {
   hideNavBar(); // 进入视频播放页时隐藏导航栏
