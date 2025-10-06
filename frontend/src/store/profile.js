@@ -11,6 +11,6 @@ export const profile = ref({
   email: "CaiGbro@163.com",
   github: "CaiGbro",
   website: "CaiGbro.top",
-  bio: "CaiGbro， 互联网牛马。  本科机械、研究生计算机，从放牛到看店、从罐头厂到电子厂、从服务员到家教，从 C 、 C++ 到 JAVA 实习、全栈实习，从 Agent 到大模型 、自动化...， 从体育到历史，从哲学到科学...，哥们东西都学杂了。",
+  bio: "CaiGbro， 互联网牛马。  本科机械、研究生计算机，从放牛到看店、从罐头厂到电子厂、从服务员到家教，从 C 、 C++ 到 JAVA 实习、全栈实习、自媒体，从 Agent 到大模型 、自动化...， 从体育到历史、哲学到科学...，哥们东西都学杂了。",
   avatarUrl: profileAvatar,
 });
