@@ -1,7 +1,7 @@
 <!-- /frontend/src/components/VideoCommentSection.vue (最终修复版) -->
 <template>
   <div class="video-comments-overlay" @click.self="$emit('close')">
-    <div class="video-comments-section" @wheel.stop>
+    <div class="video-comments-section" @wheel.stop @touchmove.stop>
       <div class="comments-header">
         <h4>{{ totalCount }} 条评论</h4>
         <button @click="$emit('close')" class="close-btn">&times;</button>
