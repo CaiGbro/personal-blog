@@ -4,9 +4,10 @@ package router
 import (
 	"log"
 	"os"
-	"time" // 导入 time 包以用于速率限制器
+	"path/filepath" // <--- 1. 导入 path/filepath 包
+	"time"
 	"your-blog/backend/handlers"
-	"your-blog/backend/middleware" // 引入我们自己的中间件
+	"your-blog/backend/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,23 +15,34 @@ import (
 // SetupRouter 配置并返回一个 Gin 引擎
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
-
-	// 限制上传文件的请求体大小，防止恶意大文件攻击 (例如 8 MB)
 	r.MaxMultipartMemory = 8 << 20
 
-	// 创建静态文件上传目录
-	if err := os.MkdirAll("./static/uploads", 0755); err != nil {
+	// --- 核心修复：使用绝对路径来设置静态文件服务 ---
+	// 2. 获取可执行文件的路径
+	exePath, err := os.Executable()
+	if err != nil {
+		log.Fatalf("Failed to get executable path: %v", err)
+	}
+	// 3. 获取可执行文件所在的目录
+	exeDir := filepath.Dir(exePath)
+	// 4. 构建到 static 文件夹的绝对路径
+	staticPath := filepath.Join(exeDir, "static")
+
+	// 5. 使用这个绝对路径来创建目录和设置静态文件服务
+	if err := os.MkdirAll(filepath.Join(staticPath, "uploads"), 0755); err != nil {
 		log.Fatalf("Failed to create upload directory: %v", err)
 	}
-	if err := os.MkdirAll("./static/video_comment_uploads", 0755); err != nil {
+	if err := os.MkdirAll(filepath.Join(staticPath, "video_comment_uploads"), 0755); err != nil {
 		log.Fatalf("Failed to create video comment upload directory: %v", err)
 	}
-	if err := os.MkdirAll("./static/writing_comment_uploads", 0755); err != nil {
+	if err := os.MkdirAll(filepath.Join(staticPath, "writing_comment_uploads"), 0755); err != nil {
 		log.Fatalf("Failed to create writing comment upload directory: %v", err)
 	}
 
-	// 设置静态文件服务
-	r.Static("/static", "./static")
+	// 6. 使用绝对路径设置静态文件服务
+	r.Static("/static", staticPath)
+	// --- 修复结束 ---
+
 
 	// API 路由组
 	api := r.Group("/api")
