@@ -18,9 +18,9 @@
 ![项目截图](./backend/static/readme/项目截图4.png)
 ![项目截图](./backend/static/readme/项目截图5.png)
 ![项目截图](./backend/static/readme/项目截图6.png)
-![项目截图](./backend/static/readme/项目截图7.png)
-![项目截图](./backend/static/readme/项目截图8.png)
-![项目截图](./backend/static/readme/项目截图9.png)
+![项目截图](./backend/static/readme/项目截图7.jpg)
+![项目截图](./backend/static/readme/项目截图8.jpg)
+![项目截图](./backend/static/readme/项目截图9.jpg)
 
 
 ---
